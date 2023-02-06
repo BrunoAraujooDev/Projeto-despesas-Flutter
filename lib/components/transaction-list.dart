@@ -10,60 +10,58 @@ class TransactionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        height: 500,
-        child: transactions.isEmpty
-            ? Column(
-                children: [
-                  SizedBox(height: 30),
-                  Text(
-                    'Nenhuma transação cadastrada',
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 30),
-                    height: 200,
-                    child: Image.asset(
-                      'assets/images/waiting.png',
-                      fit: BoxFit.cover,
-                    ),
-                  )
-                ],
+    return transactions.isEmpty
+        ? Column(
+            children: [
+              SizedBox(height: 30),
+              Text(
+                'Nenhuma transação cadastrada',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 30),
+                height: 200,
+                child: Image.asset(
+                  'assets/images/waiting.png',
+                  fit: BoxFit.cover,
+                ),
               )
-            : ListView.builder(
-                itemCount: transactions.length,
-                itemBuilder: (context, index) {
-                  final tr = transactions[index];
-                  return Card(
-                    elevation: 4,
-                    margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 5),
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        backgroundColor: Theme.of(context).colorScheme.primary,
-                        radius: 30,
-                        child: Padding(
-                          padding: EdgeInsets.all(6.0),
-                          child: FittedBox(
-                            child: Text(
-                              'R\$${tr.value.toStringAsFixed(1)}',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
+            ],
+          )
+        : ListView.builder(
+            itemCount: transactions.length,
+            itemBuilder: (context, index) {
+              final tr = transactions[index];
+              return Card(
+                elevation: 4,
+                margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 5),
+                child: ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    radius: 30,
+                    child: Padding(
+                      padding: EdgeInsets.all(6.0),
+                      child: FittedBox(
+                        child: Text(
+                          'R\$${tr.value.toStringAsFixed(1)}',
+                          style: TextStyle(color: Colors.white),
                         ),
                       ),
-                      title: Text(
-                        tr.title,
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                      subtitle: Text(DateFormat('d MMM y').format(tr.date)),
-                      trailing: IconButton(
-                        onPressed: () => _removeTransaction(tr.id),
-                        icon: Icon(Icons.delete),
-                        color: Theme.of(context).colorScheme.error,
-                      ),
                     ),
-                  );
-                },
-              ));
+                  ),
+                  title: Text(
+                    tr.title,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  subtitle: Text(DateFormat('d MMM y').format(tr.date)),
+                  trailing: IconButton(
+                    onPressed: () => _removeTransaction(tr.id),
+                    icon: Icon(Icons.delete),
+                    color: Theme.of(context).colorScheme.error,
+                  ),
+                ),
+              );
+            },
+          );
   }
 }

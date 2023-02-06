@@ -22,16 +22,15 @@ class ExpensesApp extends StatelessWidget {
           secondary: Colors.amber,
         ),
         textTheme: tema.textTheme.copyWith(
-          titleLarge: const TextStyle(
-            fontFamily: 'OpenSans',
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-          ),
-          labelLarge: const TextStyle(
-            color: Colors.white,
-          )
-        ),
+            titleLarge: const TextStyle(
+              fontFamily: 'OpenSans',
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
+            labelLarge: const TextStyle(
+              color: Colors.white,
+            )),
         appBarTheme: const AppBarTheme(
           titleTextStyle: TextStyle(
             fontFamily: 'Quicksand',
@@ -62,17 +61,20 @@ class _MyHomePageState extends State<MyHomePage> {
       title: 'Conta de Luz',
       value: 211.30,
       date: DateTime.now(),
-    ), Transaction(
+    ),
+    Transaction(
       id: 't2',
       title: 'Mercado',
       value: 500.00,
       date: DateTime.now().subtract(const Duration(days: 3)),
-    ),Transaction(
+    ),
+    Transaction(
       id: 't2',
       title: 'Academia',
       value: 60.20,
       date: DateTime.now().subtract(const Duration(days: 3)),
-    ),Transaction(
+    ),
+    Transaction(
       id: 't2',
       title: 'Evento RiR',
       value: 450.00,
@@ -80,9 +82,10 @@ class _MyHomePageState extends State<MyHomePage> {
     ),
   ];
 
-  List<Transaction> get _recentTransactions{
+  List<Transaction> get _recentTransactions {
     return _transactions.where((element) {
-      return element.date.isAfter(DateTime.now().subtract(const Duration(days: 7)));
+      return element.date
+          .isAfter(DateTime.now().subtract(const Duration(days: 7)));
     }).toList();
   }
 
@@ -101,8 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
     Navigator.of(context).pop();
   }
 
-  _deleteTransaction(String id ){
-
+  _deleteTransaction(String id) {
     setState(() {
       _transactions.removeWhere((element) => element.id == id);
     });
@@ -119,22 +121,35 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+
+
+
+    final appBar = AppBar(
+      title: const Text('Despesas Pessoais'),
+      actions: <Widget>[
+        IconButton(
+          icon: const Icon(Icons.add),
+          onPressed: () => _openTransactionFormModal(context),
+        ),
+      ],
+    );
+
+    double availableHeight = MediaQuery.of(context).size.height - appBar.preferredSize.height - MediaQuery.of(context).padding.top;
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Despesas Pessoais'),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () => _openTransactionFormModal(context),
-          ),
-        ],
-      ),
+      appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Chart(_recentTransactions),
-            TransactionList(_transactions, _deleteTransaction),
+            Container(
+              height: availableHeight * 0.3,
+              child: Chart(_recentTransactions),
+            ),
+            Container(
+              height: availableHeight * 0.7,
+              child: TransactionList(_transactions, _deleteTransaction),
+            ),
           ],
         ),
       ),
